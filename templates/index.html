@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leo's Website Update Tracker</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">Leo's Website Was Last Updated</h1>
+    <div id="countdown">
+        <img id="loader" src="" alt="Loading...">
+        <ul>
+            <li id="years_container"><span id="years"></span>
+                <p id="years_label">Years</p></li>
+            <li id="months_container"><span id="months"></span>
+                <p id="months_label">Months</p></li>
+            <li id="days_container"><span id="days"></span>
+                <p id="days_label">Days</p></li>
+            <li id="hours_container"><span id="hours"></span>
+                <p id="hours_label">Hours</p></li>
+            <li id="minutes_container"><span id="minutes"></span>
+                <p id="minutes_label">Minutes</p></li>
+            <li id="seconds_container"><span id="seconds"></span>
+                <p id="seconds_label">Seconds</p></li>
+        </ul>
+    </div>
+    <h1 class="title">Ago</h1>
+</div>
+
+<div id="theme_selector_container">
+    <input onclick="toggle_theme()" id="theme_selector" name="theme_selector" type="checkbox"/><label
+        for="theme_selector"></label>
+</div>
+</body>
+<script src="/static/js/index.js"></script>
+
+</html>
