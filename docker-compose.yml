@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  leodotslashstevesh:
+    restart: on-failure
+    image: leo.dotslashsteve.sh:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${PWD}/status.json:/app/status.json
