@@ -2,3 +2,4 @@ Flask==2.1.1
 Flask-SocketIO==5.1.1
 simple-websocket==0.5.1
 requests==2.28.1
+Werkzeug==2.2.0

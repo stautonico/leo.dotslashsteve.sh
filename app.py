@@ -1,44 +1,59 @@
 from flask_socketio import SocketIO
 from flask import Flask, render_template
 import json
-import requests
-from hashlib import sha1
 import datetime
+import os
+import subprocess
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = 'myreallysecureuselesskey'
 app.config['DEBUG'] = True
+
+FOLDER_NAME = "julioaalvarez.com"
+DATE_FORMAT = "%a %b %d %H:%M:%S %Y"
 
 socketio = SocketIO(app, async_mode=None, logger=True, engineio_logger=True)
 
 
-def get_last_hash():
+def get_last_updated():
+    if not os.path.exists("status.json"):
+        return datetime.datetime.fromtimestamp(0)
+
     file = json.load(open("status.json"))
-    return file['hash']
+
+    return datetime.datetime.fromtimestamp(file["last_updated"])
 
 
-def update(new_hash):
-    payload = {'hash': new_hash, 'last_updated': datetime.datetime.now().timestamp() * 1000}
+def update(timestamp):
+    payload = {"last_updated": timestamp.timestamp()}
     with open("status.json", "w") as f:
         f.write(json.dumps(payload))
 
 
 def was_updated():
-    r = requests.get('https://julioaalvarez.com/')
-    # r = requests.get('http://localhost:8000')
-    if r.status_code == 200:
-        # Hash the page content
-        hash = sha1(r.content).hexdigest()
-        # Compare the hash with the previous hash
-        if hash != get_last_hash() and hash != '' and hash is not None:
-            update(hash)
-            return True
+    # if not os.path.exists(FOLDER_NAME):
+    #     os.system("git clone https://github.com/JulioAAlvarez/julioaalvarez.com")
 
-    return False
+    # os.chdir(FOLDER_NAME)
+
+    os.system("git pull")
+
+    timestring = subprocess.check_output("git log -1 --format=%cd --date=local".split()).decode().replace("\n", "")
+
+    date_obj = datetime.datetime.strptime(timestring, DATE_FORMAT)
+
+    # os.chdir("..")
+
+    if date_obj > get_last_updated():
+        update(date_obj)
+        return True
+    else:
+        return False
 
 
 def get_status_payload():
     file = json.load(open("status.json"))
+    file["last_updated"] = file["last_updated"] * 1000
     return file
 
 
@@ -70,6 +85,4 @@ def status_disconnect():
 
 
 if __name__ == '__main__':
-    socketio.run(app,
-                 static_url_path='',
-                 static_folder="static")
+    socketio.run(app)
