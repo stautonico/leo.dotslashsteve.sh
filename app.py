@@ -31,10 +31,10 @@ def update(timestamp):
 
 
 def was_updated():
-    # if not os.path.exists(FOLDER_NAME):
-    #     os.system("git clone https://github.com/JulioAAlvarez/julioaalvarez.com")
+    if not os.path.exists(FOLDER_NAME):
+        os.system("git clone https://github.com/JulioAAlvarez/julioaalvarez.com")
 
-    # os.chdir(FOLDER_NAME)
+    os.chdir(FOLDER_NAME)
 
     os.system("git pull")
 
@@ -42,7 +42,7 @@ def was_updated():
 
     date_obj = datetime.datetime.strptime(timestring, DATE_FORMAT)
 
-    # os.chdir("..")
+    os.chdir("..")
 
     if date_obj > get_last_updated():
         update(date_obj)
