@@ -29,4 +29,4 @@ RUN chown -R app:app /app
 
 USER app
 
-CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000",  "app:app", "--error-logfile", "-", "--access-logfile", "-"]
+CMD ["gunicorn", "-w", "1", "--bind", "0.0.0.0:5000",  "app:app", "--error-logfile", "-", "--access-logfile", "-"]
